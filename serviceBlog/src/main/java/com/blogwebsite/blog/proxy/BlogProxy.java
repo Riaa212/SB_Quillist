@@ -28,5 +28,6 @@ public class BlogProxy {
     private List<String> imageUrls;
     
 	private Long totalComments;
+	private Integer totalview;
 }
 

@@ -184,10 +184,19 @@ public class BlogServiceImpl implements BlogService
 //	}
 	
 	//get blog by id - working
+//	Integer view=0;
 	@Override
 	public BlogProxy getBlogById(Integer id)
 	{
+		
 		Optional<BlogEntity> byId = blogRepo.findById(id);
+		BlogEntity blogObj = byId.get();
+//		blogObj.
+		System.err.println("blogObj"+blogObj.getUser_id());
+		Integer totalview = blogObj.getTotalview();
+		totalview++;
+		blogObj.setTotalview(totalview);
+		blogRepo.save(blogObj);
 		return helper.convert(byId, BlogProxy.class);			
 	}
 
@@ -318,4 +327,5 @@ public class BlogServiceImpl implements BlogService
 			}
 			return null;
 		}
+		
 }

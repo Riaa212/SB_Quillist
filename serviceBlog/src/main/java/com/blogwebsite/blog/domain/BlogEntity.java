@@ -75,5 +75,7 @@ public class BlogEntity implements Serializable
 	
 	private Long totalComments;
 	
+	private Integer totalview;
+	
 	
 }
