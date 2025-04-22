@@ -1,7 +1,9 @@
 package com.blogwebsite.blog.proxy;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import com.blogwebsite.blog.domain.BlogImage;
 import com.blogwebsite.blog.enumeration.BlogStatus;
 
 import lombok.AllArgsConstructor;
@@ -26,7 +28,9 @@ public class BlogProxy {
 	private List<CommentProxy> comments;
 	
     private List<String> imageUrls;
-    
+
+//	private List<BlogImage> blogImgs=new ArrayList<>();
+	
 	private Long totalComments;
 }
 

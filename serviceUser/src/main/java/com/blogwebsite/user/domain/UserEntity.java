@@ -42,7 +42,7 @@ public class UserEntity implements Serializable
 	@UpdateTimestamp
 	private Date updateAt;
 	
-	private byte[] profilePhoto;
+//	private byte[] profilePhoto;
 	
 	private String otp;
 	

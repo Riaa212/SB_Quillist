@@ -143,6 +143,7 @@ public class BlogController {
 		@ModelAttribute("blog") BlogEntity blogEntity,
 	     @RequestPart("images") List<MultipartFile> images
 	 ) {
+		 System.err.println("image upload controller....");
 	     return ResponseEntity.status(HttpStatus.OK).body(blogImpl.createBlog(images,blogEntity));
 	 }
 	 
