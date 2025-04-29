@@ -1,5 +1,7 @@
 package com.blogwebsite.blog.controller;
 
+import java.security.KeyPairGenerator;
+import java.security.NoSuchAlgorithmException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,6 +35,23 @@ public class BlogController {
 	@Autowired
 	private BlogServiceImpl blogImpl;
 	
+	// Class private variables 
+    private static final String SECRET_KEY 
+        = "my_super_secret_key_ho_ho_ho"; 
+    
+	static KeyPairGenerator keyPairGenerator;
+    
+    public void init() {
+    	 // Initialize Key Pair Generator
+        try {
+			keyPairGenerator = KeyPairGenerator.getInstance("AES");
+		} catch (NoSuchAlgorithmException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+//        keyPairGenerator.initialize(2048);
+    }
+    
 	//create blog
 	@PostMapping("/save/{id}") //working -user
 	public ResponseEntity<?> saveBlog(@RequestBody BlogProxy blogProxy,@PathVariable("id") Integer id)
@@ -143,6 +162,7 @@ public class BlogController {
 		@ModelAttribute("blog") BlogEntity blogEntity,
 	     @RequestPart("images") List<MultipartFile> images
 	 ) {
+		 System.err.println("image upload controller....");
 	     return ResponseEntity.status(HttpStatus.OK).body(blogImpl.createBlog(images,blogEntity));
 	 }
 	 
@@ -151,4 +171,5 @@ public class BlogController {
 	 {
 		 return ResponseEntity.status(HttpStatus.OK).body(blogImpl.deletecommentById(commentId));
 	 }
+	 
 }

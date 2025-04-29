@@ -1,5 +1,6 @@
 package com.blogwebsite.user.security.config;
 
+import java.io.BufferedReader;
 import java.io.IOException;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +27,12 @@ public class JwtFilter  extends OncePerRequestFilter {
 	@Autowired
 	private JwtService jwtService;
 	
+//	@Autowired
+//	private CustomHttpServletRequest chsr;
+	
+    private final String secretKey = "1234567890123456";
+    private final String initVector = "6543210987654321"; // or extract from header
+    
 	@Autowired
 	private ApplicationContext applicationContext;
 	//get details from user details class
@@ -38,10 +45,21 @@ public class JwtFilter  extends OncePerRequestFilter {
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
 			throws ServletException, IOException {
-		System.out.println("do filter work..");
+//		System.out.println("do filter work.."+request.getReader());
+		
 		try 
 		{
-			System.out.println("do filter internal");
+//		    BufferedReader reader = request.getReader();
+//		    StringBuilder sb = new StringBuilder();
+//			String line;
+//			while ((line = reader.readLine()) != null) 
+//			{
+//			sb.append(line);
+//	        // Extract JSON field "data"
+//	        String body = sb.toString();
+//	        System.out.println("body"+body);
+//			}
+		
 			String authHeader= request.getHeader("Authorization");
 			String token=null;
 			String userName=null;
@@ -75,8 +93,10 @@ public class JwtFilter  extends OncePerRequestFilter {
 	                SecurityContextHolder.getContext().setAuthentication(authToken);
 	            }
 	        }
+	        
 	        filterChain.doFilter(request, response);	
-		} catch (Exception e) {
+		} 
+		catch (Exception e) {
 			System.err.println(e);
 			System.out.println("catch block from jwt filter..");
 			response.setContentType("application/json");

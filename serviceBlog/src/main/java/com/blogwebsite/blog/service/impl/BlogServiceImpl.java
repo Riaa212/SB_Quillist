@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -17,6 +18,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.blogwebsite.blog.FeignClient.UserClient;
 import com.blogwebsite.blog.domain.BlogEntity;
+import com.blogwebsite.blog.domain.BlogImage;
 import com.blogwebsite.blog.domain.BlogRating;
 import com.blogwebsite.blog.domain.Category;
 import com.blogwebsite.blog.domain.Comment;
@@ -194,9 +196,12 @@ public class BlogServiceImpl implements BlogService
 //		blogObj.
 		System.err.println("blogObj"+blogObj.getUser_id());
 		Integer totalview = blogObj.getTotalview();
+		if(totalview<0)
+		{
 		totalview++;
 		blogObj.setTotalview(totalview);
 		blogRepo.save(blogObj);
+		}
 		return helper.convert(byId, BlogProxy.class);			
 	}
 
@@ -237,45 +242,64 @@ public class BlogServiceImpl implements BlogService
 		return helper.convertList(list, BlogProxy.class);
 	}
 	
-	
+	public String updateBlogImage(MultipartFile images,BlogEntity blogEntity)
+	{
+		Optional<BlogEntity> byId = blogRepo.findById( blogEntity.getId());
+		if(byId.isPresent())
+		{
+			BlogEntity blogObj = byId.get();
+		}
+		return null;
+	}
 	
 	public BlogEntity createBlog( List<MultipartFile> images,BlogEntity blogEntity)
 	{
+		
 	    List<String> imageUrls = new ArrayList<>();
-
+	    
 	    for (MultipartFile image : images) {
 	        try {
 	        	//for unique file name
-	            String fileName = UUID.randomUUID() + "_" + image.getOriginalFilename();
+	        	UUID uuid=UUID.randomUUID();
+	            String fileName =  uuid+ "_" + image.getOriginalFilename();
 	            
 	            //upload in folder
 	            Path path = Paths.get("uploads/" + fileName);
-//	            Files.createDirectories(path.getParent());
+	            
 	            Files.write(path, image.getBytes());
 
 	            	
-	            String imageUrl = "http://localhost:8088/uploads/" + fileName;
+	            String imageUrl= "http://localhost:8088/uploads/" + fileName;
 	      
 	            imageUrls.add(imageUrl);
+	            
+//	            System.err.println("inside==="+imageUrl);
+//	            
+//	            System.err.println("Image saved to: " + path.toAbsolutePath());
+//	            
+	            // Get just the file part from the URL
+//	            String filePart = imageUrl.substring(imageUrl.lastIndexOf('/') + 1);
 
-	            System.err.println("Image saved to: " + path.toAbsolutePath());
+	            // Now get the part after the last underscore
+//	            String finalFileName = filePart.substring(filePart.lastIndexOf('_') + 1);
+//
+//	            System.err.println("image url===>"+finalFileName);  // Output: place.jpg
 	        } catch (IOException e) {
 	            e.printStackTrace();
 	        }
 	    }
 	    
-
 	    BlogEntity blog = new BlogEntity();
 	    blog.setTitle(blogEntity.getTitle());
 	    blog.setContent(blogEntity.getContent());
-//	    blog.setImageUrls(images);
+	    
 	    blog.setImageUrls(imageUrls);
 	    blog.setCategory(blogEntity.getCategory());
 	    blog.setUser_id(blogEntity.getUser_id());
-	    
-	    
-	    
+	    System.err.println(blog);
+	    //	  blogEntity.setImageUrls(imageUrls);
 	    BlogEntity saved = blogRepo.save(blog);
+	    
 	    return saved;
 	}
 	

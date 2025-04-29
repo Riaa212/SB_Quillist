@@ -1,6 +1,7 @@
 package com.blogwebsite.blog.domain;
 
 import java.io.Serializable;
+import java.nio.charset.Charset;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -30,6 +31,10 @@ import lombok.NoArgsConstructor;
 public class BlogEntity implements Serializable
 {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer id;
@@ -75,7 +80,16 @@ public class BlogEntity implements Serializable
 	
 	private Long totalComments;
 	
+	@Column(columnDefinition="default  '0'")
 	private Integer totalview;
+
 	
+
+//	
+//	@ElementCollection
+//	 @CollectionTable(name = "blog_imgs", joinColumns = @JoinColumn(name = "blog_id"))
+//	private List<BlogImage> blogImgs=new ArrayList<>();
+//	
+
 	
 }
