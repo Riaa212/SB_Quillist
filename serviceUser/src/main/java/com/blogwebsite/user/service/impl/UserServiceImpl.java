@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Random;
 
+import javax.management.Notification;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -59,6 +61,7 @@ public class UserServiceImpl implements UserService
 	private JwtService jwtService;
 	//private final String blogUrl="http://localhost:8088/blog/";
 	
+	
 	@Override
 	public String registerUser(UserProxy user) {
 //		emp.setPassword(passwordEncoder.encode(emp.getPassword()));
@@ -76,6 +79,9 @@ public class UserServiceImpl implements UserService
 
 	@Override
 	public String createBlog(BlogProxy blog,Integer id) {
+//		Notification notification=new Notification();
+		
+//		notification.setUserData(id);
 		blogClient.createBlog(blog, id);
 		return "saved";
 	}
@@ -322,11 +328,20 @@ public class UserServiceImpl implements UserService
 		if(userbyId.isPresent())
 		{
 		UserEntity userEntity = userbyId.get();
+//		System.err.println("user obj============"+userEntity);
+		if(userEntity.getFollowRequest().getStatus().equals("sent"))
+		{
 			fr.setStatus("followed");
-			userEntity.setFollowRequest(fr);
-//			userEntity.getFollowRequest().add(fr);
+			userEntity.setFollowRequest(fr);	
 			userRepo.save(userEntity);
 			return "request accepted successfully";
+		}
+		else 
+		{
+			fr.setStatus("unfollow");
+			return "unfollow successfully";
+		}
+//			return "request accepted successfully";
 		}
 		
 		return "something went wrong...";

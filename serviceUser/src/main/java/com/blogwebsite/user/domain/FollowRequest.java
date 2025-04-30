@@ -1,5 +1,10 @@
 package com.blogwebsite.user.domain;
 
+import java.util.Date;
+
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -24,7 +29,15 @@ public class FollowRequest {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer id;
+	
 	private String status; //sent, followed,pending
 	
 	private Integer requestuserId;
+	
+	
+	@CreationTimestamp
+	private Date createdAt;
+	
+	@UpdateTimestamp
+	private Date updateAt;
 }
