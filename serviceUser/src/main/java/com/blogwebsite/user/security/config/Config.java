@@ -51,7 +51,9 @@ public class Config {
 				"/getAllEmps",
 				"/user/testOtp/**",
 				"/user/resetpassword",
-				"/user/generateOtp/**").permitAll().
+				"/user/generateOtp/**",
+				"/user/getById/**",
+				"/user/getUserByEmail/**").permitAll().
 				anyRequest().authenticated());
 		http.httpBasic(Customizer.withDefaults());
 		http.exceptionHandling(auth->auth.authenticationEntryPoint(entryPoint));

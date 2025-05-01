@@ -8,7 +8,8 @@ import com.blogwebsite.blog.proxy.UserProxy;
 
 import feign.Headers;
 
-@FeignClient(name="UserService",url = "http://localhost:8087/",path = "/user",configuration = FiegnConfig.class)
+@FeignClient(name="UserService",url = "http://localhost:8087/",path = "/user")
+//@FeignClient(name="UserService",url = "http://localhost:8087/",path = "/user",configuration = FiegnConfig.class)
 public interface UserClient {
 
 	@GetMapping("/getById/{id}")

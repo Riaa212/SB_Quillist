@@ -19,10 +19,14 @@ public class RouteValidator {
 			"/user/loginReq",
 			"/home",
 			"/user/register",
+			"/user/getById/**",
 //			"/jwt/home",
 //			"/api-docs",
 			"/eureka/**",
-			"/blog/getAllBlogs"
+			"/blog/getAllBlogs",
+			"/blog/getUserById/",
+			"/user/getUserByEmail/",
+			"/user/getById/"
 			);
 	
 	public Predicate<ServerHttpRequest> isSecured=
